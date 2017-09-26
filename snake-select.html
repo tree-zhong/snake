@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	@keyframes biger{
+		from{
+			transform: scale(1);
+		}
+		to{
+			transform:scale(1.5);
+		}
+	}
+		#header{
+			position: relative;
+			width: 740px;
+			height: 600px;
+			margin:0 auto;
+			border:10px solid green;
+			background:url(images/1.png) no-repeat center;
+		}
+		.active{
+			position: absolute;
+			left: 33px;
+    		top: 100px;
+			display:block;
+			width: 160px;
+			height: 160px;
+			animation:scale 1.5s;
+			animation-iteration-count: infinite;
+		}
+		@keyframes scale{
+			0%{transform: scale(1);}
+			50%{transform: scale(1.2);}
+			100%{transform: scale(1);}
+		}
+		img{
+			display:block;
+			width:150px;
+			height: 50px;
+			cursor:pointer;
+			position: relative;
+			left: 538px;
+    		top: 194px;
+    		margin-bottom: 50px;
+		}
+		.mid{
+			left: 587px;
+		}
+		#rule{
+			color: #000;
+			font-family: 'Comic Sans MS','华文彩云';
+			background: -webkit-radial-gradient( green, #fff);
+			border-radius: 25px;
+			float: left;
+			cursor: pointer;
+			text-align: center;
+			line-height: 50px;
+			height: 50px;
+			/*box-shadow: 0 0 5px 0 green;*/
+			position: absolute;
+			right: 149px;
+			top: 98px;
+			font-size: 12px;
+			animation: biger 2s linear infinite;
+		}
+		#help{
+			width: 300px;
+			height: 200px;
+			background: rgba(0,0,0,.5);
+			position: absolute;
+			left: 219px;
+    		top: 165px;
+    		padding:50px 30px 0 ;
+    		box-sizing:border-box;
+    		color: #fff;
+    		font:bold 16px/20px 'Comic Sans MS','微软雅黑';
+    		border-radius: 80px 0 100px 80px;
+    		display:none;
+		}
+		#help #close{
+			position: relative;
+			float: right;
+			right: 38px;
+   			 top: 27px;
+   			 background: #ccc;
+   			 color: black;
+   			 padding: 5px;
+   			 border-radius: 5px;
+   			 cursor: pointer;
+		}
+	</style>
+	<script>
+		window.onload=function(){
+				// 获取所需文本的对象元素
+				var header=document.getElementById('header');
+				var oDiv=header.getElementsByTagName('img');
+				var close=document.getElementById("close")	;
+				var help=document.getElementById('help');
+				var rule=document.getElementById('rule');				
+				// for (var i = 0; i < oDiv.length; i++) {
+				// 	oDiv[i].onmouseenter=function(){
+				// 		for (var j = 0; j < oDiv.length; j++) {
+				// 			oDiv[j].style.transform='translate:scale(1)';
+				// 		}				
+				// 		this.style.transform='translate:scale(0.7)';
+				// 	}
+				// }
+			   function getData(){
+				  var loc = location.href;
+				  var length = loc.length;//地址的总长度
+				  var index = loc.indexOf("=");//取得=号的位置
+				  var yourname= decodeURI(loc.substr(index+1, length-index));//从=号后面的内容	
+				  return   yourname;	
+			   }		
+			   function JumpToAndSendData(url,str){
+			        location.href=url+"?"+"yourname="+encodeURI(str);
+			    }    		
+				oDiv[1].onclick=function(){
+					JumpToAndSendData('TCS/snake1-1.html',getData());
+				}
+				oDiv[2].onclick=function(){
+					JumpToAndSendData('TCS/snake1-2.html',getData());
+				}
+				oDiv[3].onclick=function(){
+					JumpToAndSendData('TCS/snake1-3.html',getData());
+					// window.location.href="TCS/data-3.html";
+				}
+
+				rule.onclick=function(){
+						help.style.display='block';
+				}	
+
+				close.onclick=function(){
+					help.style.display='none'
+				}	
+		}
+		
+	</script>	
+		
+</head>
+<body>
+	<div id="header">
+		<img src="images/2.png" alt="" class="active">
+		<div id="rule">游戏规则</div>
+		<div id="help">
+			1·通过空格键或者点击可视化按钮开始;<br>
+			2·通过键盘上的上下左右控制运动方向
+			<div id="close">close</div>
+		</div>
+		<img src="images/easy.png" alt="">
+		<img class="mid" src="images/media.png" alt="">
+		<img src="images/hard.png" alt="">
+
+	</div>
+
+</body>
+</html>

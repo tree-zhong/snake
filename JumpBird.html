@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bird Jump</title>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="run.js"></script>
+    <style>
+        *{
+            margin: 0;padding: 0;
+            overflow: hidden;
+            text-decoration: none;
+        }
+        #bird{
+            width: 40px;height: 30px;
+            /*background: red;*/
+            position: absolute;
+            left: 150px;
+            top: 235px;
+            z-index:999;
+            background: url("bird.png") ;
+            /*-webkit-background-position: center center;*/
+        }
+        #area{
+            margin: 50px auto;
+            width:800px;height: 500px;
+            background: #d6ffeb;
+            position: relative;
+        }
+        #area #start{
+            position: absolute;
+            top: 5px;left:5px;
+            background: white;
+            height: 30px;width: 70px;
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 15px;
+            line-height: 30px;
+            text-align: center;
+            z-index:9999;
+        }
+        #area #start a{
+            text-decoration: none;
+            color: black;
+        }
+        #area .max{
+            position: absolute;
+            left:200px;
+            top: 10px;
+            background: #ff9a35;
+            border-radius: 5px;
+            width: 100px;
+            height: 25px;
+            text-align: center;
+            line-height: 25px;
+            z-index:9999;
+        }
+        #area .max>a{
+            color:black;
+            text-align: center;
+        }
+        #area .sorce{
+            position: absolute;
+            top:5px;left: 85px;
+            width: 100px;height: 30px;
+            font-size: 17px;
+            line-height: 35px;
+            text-align: center;
+            z-index:9999;
+        }
+        #area .sorce span{
+            color: blue;
+        }
+        #area .box{
+            position: absolute;
+            z-index:9999;
+            bottom:10px;right: 10px;
+            background: rgba(100,100,100,0.3);
+            width: 60px;height: 60px;
+            /*box-sizing: border-box;*/
+            border-radius: 50%;
+
+
+        }
+        #area .box #birdJump{
+            position: absolute;
+            z-index:9999;
+            top:5px;left: 5px;
+            background: rgb(255,255,255);
+            width: 50px;height: 50px;
+            /*box-sizing: border-box;*/
+            border-radius: 50%;
+        }
+        #area .timer{
+            position: absolute;
+            width: 100px;  height: 100px;
+            top:200px;left: 350px;
+            z-index:9999;
+            font-size: 60px;
+            text-align: center;
+            line-height: 100px;
+            display: none;
+        }
+        #area .maxbox{
+            position: absolute;
+            width: 200px;  height: 60px;
+            background: #ff940d;
+            top:200px;left: 300px;
+            border-radius: 5px;
+            z-index:9999;
+            display: none;
+        }
+        #area .maxbox>span{
+            position: absolute;
+            width: 200px;
+            text-align: center;
+            line-height: 60px;
+            font-size: 20px;
+            z-index:9999;
+
+            /*display: none;*/
+        }
+        #area .maxbox>span>em{
+            color: white;
+        }
+
+        #area .grade{
+            position: absolute;
+            width: 200px;  height: 120px;
+            background: rgba(209, 198, 8, 0.5);
+            top:200px;left: 300px;
+            z-index:9999;
+
+            display: none;
+        }
+        #area .grade span:first-child{
+            position: absolute;
+            font-size: 25px;
+            color: red;
+            text-align: center;
+            width: 200px;
+            /*left: 50px;*/
+            top:0px;
+            /*line-height: 100px;*/
+        }
+        #area .grade span:nth-child(2){
+            position: absolute;
+            font-size: 20px;
+
+            text-align: center;
+            width: 200px;
+            /*left: 50px;*/
+            top:40px;
+            /*line-height: 100px;*/
+        }
+        #area .grade span:nth-child(2) em{
+            color: red;
+        }
+        #area>.grade>a{
+            color: white;
+        }
+        #area>.grade .reset{
+            position: absolute;
+            width: 50px;
+            height: 30px;
+            top:80px;
+            background: #0e16d1;
+            z-index: 9999;
+            left: 75px;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 5px;
+        }
+        .toppipe{
+            background: green;
+            position: absolute;
+            width: 70px;
+            right: 0;
+            top:0;
+            /*z-index:2;*/
+        }
+        .bottompipe{
+            background: green;
+            position:absolute;
+            width: 70px;right: 0;
+            bottom: 0;
+            /*z-index:2;*/
+
+        }
+    </style>
+</head>
+<body>
+
+    <!--<input type="text" value="0" id="sorce">-->
+
+    <div id="area">
+
+        <div id="start"><a href="#">开始游戏</a></div>
+        <div class="sorce">通过关数:<span id="barrier">0</span></div>
+        <!--<div class="max"><a href="#">查看最高分数</a></div>
+        <div class="maxbox">
+            <span>历史最高分数：<em id="maxSorce">0</em></span>
+        </div>-->
+        <div class="box"><a href="#"><div id="birdJump"></div></a></div>
+        <div class="timer">3</div>
+        <div class="grade">
+            <span>Game over !</span>
+            <span id="score">分数：<em id="em">0</em></span>
+            <a href="#"><div class="reset">重玩</div></a>
+        </div>
+        <div id="bird"></div>
+    </div>
+
+<script>
+    $(function(){
+        var downTime=null;
+        var jumpTime=null;
+        var createTime=null;
+        var pipeTime=null;
+        var bird=document.getElementById("bird");
+        console.log(bird);
+        var area=document.getElementById("area");
+        var barrier=0;
+        var sorce=0;
+        var maxSorce=0;
+
+//        down();
+//        createTopPipe();
+//        createTopPipe();
+
+        $("#start").click(function(){
+           start();
+            $("#start").unbind("click");
+        });
+
+        function start(){
+            $(".timer").css({display:"block"});
+            var time=3;
+            $(".timer").html("3");
+            var starTime=setInterval(function(){
+                time--;
+                $(".timer").html(time);
+                if(time==0){
+                    clearInterval(starTime)
+                }
+            },1000);
+
+            setTimeout(function(){
+                down();
+                startJump();
+                createTopPipe();
+                $(".timer").css({display:"none"});
+            },3000)
+        }
+
+        function getStyle(obj,name){
+            if(obj.currentStyle){
+                return obj.currentStyle[name];
+            }else{
+                return getComputedStyle(obj,null)[name];
+            }
+        }
+
+        var birdH=parseInt(getStyle(bird,"height"));
+        var birdW=parseInt(getStyle(bird,"width"));
+        var birdL=parseInt(getStyle(bird,"left"));
+        var birdT=null;
+        var areaH=parseInt(getStyle(area,"height"));
+
+        //小鸟下落
+        function down() {
+            var downSpeed=0;
+            downTime=setInterval(function(){
+                birdT=parseInt(getStyle(bird,"top"));
+//                alert(birdT);
+                downSpeed++;
+                if (downSpeed >= 10) {
+                    downSpeed =10;
+                }
+                bird.style.top =birdT + downSpeed + "px";
+                bird.style.webkitTransform ="rotate(30deg)";
+                bird.style.msTransform ="rotate(30deg)";
+                if(birdT>=470){
+                    end();
+                }
+
+            },20);
+        }
+        //小鸟跳跃
+        function jump() {
+    //      clearInterval(jumpTime);
+            var upSpeed=9;
+            jumpTime=setInterval(function(){
+                upSpeed--;
+                if (upSpeed<= 0) {
+                    clearInterval(jumpTime);
+                    down();
+                }
+                bird.style.top =bird.offsetTop-upSpeed + "px";
+                bird.style.webkitTransform ="rotate(-30deg)";
+                bird.style.msTransform ="rotate(-30deg)";
+                if(birdT<=0){
+                    birdT=0;
+                    $("#birdJump").unbind("click");
+//                    clearTime()
+                    end();
+                }
+            },20);
+        }
+        function startJump(){
+            $("#birdJump").click(function(){
+    //            var oEvent=ev||event;
+    //            var keyCode=oEvent.keyCode;
+    //            alert(keyCode);
+    //            if(keyCode==13){
+                    clearInterval(downTime);
+                    clearInterval(jumpTime);
+    //                alert("123");
+                    jump();
+    //            }
+            });
+        }
+
+        $("#birdJump").mousedown(function(){
+            $("#birdJump").css({background:"cyan"});
+        });
+        $("#birdJump").mouseup(function(){
+            $("#birdJump").css({background:"white"});
+        });
+
+        //生成管道
+        function createTopPipe(){
+
+           createTime=setInterval(function(){
+                var top=document.createElement("div");
+                area.appendChild(top);
+                top.className="toppipe";
+                top.style.height=Math.random()*250+50+"px";
+
+                var topH=parseInt(getStyle(top,"height"));
+
+                var bottom=document.createElement("div");
+                area.appendChild(bottom);
+                bottom.className="bottompipe";
+                bottom.style.height=areaH-topH-120+"px";
+
+                pipeMove(top,bottom);
+            },1500);
+        }
+
+        //管道移动和碰撞检测
+
+        function pipeMove(topMove,bottomMove){
+            var arrT=[];
+            var arrB=[];
+            var j=0;
+            arrT.push(topMove);
+            arrB.push(bottomMove);
+//            clearInterval(pipeTime);
+             pipeTime=setInterval(function(){
+
+                topMove.style.left=topMove.offsetLeft-1+"px";
+                bottomMove.style.left=bottomMove.offsetLeft-1+"px";
+
+
+                var bottomT=parseInt(getStyle(arrB[j],"top"));
+                var bottomL=parseInt(getStyle(arrB[j],"left"));
+                var topL=parseInt(getStyle(arrT[j],"left"));
+                var topW=parseInt(getStyle(arrT[j],"width"));
+                var bottomW=parseInt(getStyle(arrB[j],"width"));
+                var topH=parseInt(getStyle(arrT[j],"height"));
+                    birdT=parseInt(getStyle(bird,"top"));
+
+                if((topL<=birdL-topW)&&(bottomL<=birdL-topW)){
+                    j++;
+                    barrier++;
+                    sorce++;
+                    $("#barrier").html(barrier);
+                    $("#em").html(sorce);
+                }
+                //判断是否碰撞水管
+                /*if((topL<=birdL+birdW||bottomL<=birdL+birdW)&&(topH>=birdT||bottomT<=birdT+birdH)){
+//                        bird.style.top=470+"px";
+                        end();
+                }*/
+                else if(((birdL+birdW>=topL&&birdL<=topL+topW)||(birdL+birdW>=bottomL&&birdL<=bottomL+bottomW))
+                        &&(birdT<=topH||birdT+birdH>=bottomT)){
+                    end();
+                }
+                 /*else if(topL<=birdL-topW){
+                  topMove.parentNode.removeChild(topMove);
+                  bottomMove.parentNode.removeChild(bottomMove);
+                  }*/
+                //水管移出，移除水管
+                /*else if(topL<=-70){
+                    topMove.parentNode.removeChild(topMove);
+                    bottomMove.parentNode.removeChild(bottomMove);
+                }*/
+            },5);
+        }
+
+        //清除所有定时器
+        function clearTime(){
+            var end=setInterval(function(){},1);
+            var start=(end-100)>0?end-100:0;
+            for(var i=start;i<=end;i++){
+                clearInterval(i);
+            }
+        }
+
+        $(".max").click(function(){
+            $(".maxbox").css({display:"block"});
+        });
+        document.onclick=function(){
+            $(".maxbox").css({display:"none"});
+        };
+
+
+        function end(){
+            if(sorce>=maxSorce){
+                maxSorce=sorce;
+            }
+
+            $("#maxSorce").html(maxSorce);
+            clearTime();
+            $("#start").click(function(){
+                reset();
+                start();
+            });
+            $("#birdJump").unbind("click");
+            setTimeout(function(){
+                $(".grade").css({display:"block"});
+                bird.style.webkitTransform ="rotate(30deg)";
+                bird.style.msTransform ="rotate(30deg)";
+                setInterval(function(){
+                    bird.style.top=bird.offsetTop+2+"px";
+                    if(bird.offsetTop>=470){
+                        bird.offsetTop=470+"px";
+                        clearTime();
+                    }
+                },5);
+            },1000);
+        }
+
+        //重置
+        function reset(){
+            bird.style.top=235+"px";
+            bird.style.left=150+"px";
+            bird.style.webkitTransform ="rotate(0deg)";
+            bird.style.msTransform ="rotate(0deg)";
+
+            $(".toppipe,.bottompipe").remove();
+
+            $(".timer").css({display:"none"});
+            barrier=0;
+            $("#barrier").html(barrier);
+            sorce=0;
+            $("#em").html(sorce);
+            $(".grade").css({display:"none"});
+            clearTime();
+        }
+        $(".reset").click(function(){
+            reset();
+            start();
+        })
+    });
+
+</script>
+</body>
+</html>

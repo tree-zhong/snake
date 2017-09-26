@@ -1,0 +1,223 @@
+@keyframes sc {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.7);
+  }
+}
+@keyframes dc {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
+}
+html,
+body,
+ul {
+  padding: 0;
+  margin: 0;
+  font: 14px/14px 'Comic Sans MS', '微软雅黑';
+}
+.content {
+  width: 1366px;
+  height: 80px;
+  margin: 0 auto;
+}
+html,
+body {
+  overflow-x: hidden;
+}
+#header {
+  position: relative;
+  background: purple;
+  display: flex;
+  flex: row wrap;
+  background: #66CC99;
+  height: 90px;
+}
+#header .logo {
+  width: 400px;
+  font-size: 50px;
+  line-height: 90px;
+  text-align: center;
+  color: #fff;
+}
+#header ul {
+  position: absolute;
+  right: 110px;
+  top: 50%;
+  float: right;
+  transform: translateY(-50%);
+  display: flex;
+  flex-flow: rwo wrap;
+  list-style: none;
+  height: 40px;
+}
+#header ul li {
+  margin: 0 20px;
+  font: 14px/40px 'Comic Sans MS', '微软雅黑';
+  padding: 0;
+  width: 70px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #FFF;
+}
+#header ul #unlogin {
+  display: none;
+}
+#header #headImg {
+  display: none;
+  position: absolute;
+  right: 20px;
+  height: 90px;
+  width: 70px;
+  background: #ffffff;
+  float: right;
+}
+#header #headImg #Img {
+  width: 60px;
+  height: 60px;
+  background: red;
+  margin: 5px 5px 0;
+  background: url(../images/grayheadIMG.jpg) center center no-repeat;
+  background-size: 60px 65px;
+}
+#header #headImg p {
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  height: 25px;
+  line-height: 25px;
+}
+#container {
+  margin: 0 auto;
+  background: url(../images/congruent_pentagon.png);
+  height: 500px;
+  position: relative;
+}
+#container .box {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0px auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  width: 650px;
+}
+#container .box #game1,
+#container .box #game2 {
+  position: relative;
+  width: 300px;
+  height: 240px;
+  border-radius: 5px;
+  border: 1px solid #cccccc;
+}
+#container .box #game1 .mask,
+#container .box #game2 .mask {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgba(8, 8, 8, 0.74);
+}
+#container .box #game1 .mask:hover,
+#container .box #game2 .mask:hover {
+  animation: dc 5s;
+}
+#container .box #game1 .play,
+#container .box #game2 .play {
+  position: absolute;
+  left: 35%;
+  top: 35%;
+  font: bold 40px/80px 'Comic Sans MS', '微软雅黑';
+  cursor: pointer;
+  height: 80px;
+  width: 90px;
+  border-radius: 40px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+  transform-origin: center center;
+  animation: sc 2s infinite;
+}
+#container .box #game1 {
+  background: url(../images/20170822150001.png) center center no-repeat;
+  background-size: 300px 240px;
+}
+#container .box #game2 {
+  background: url(../images/20170824192209.png) center center no-repeat;
+  background-size: 300px 240px;
+}
+#footer {
+  background: #666699;
+  height: 150px;
+  position: relative;
+}
+#hide {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  height: 680px;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+}
+#hide .size {
+  position: relative;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 350px;
+  width: 400px;
+  background: #666699;
+}
+#hide .size #rClose,
+#hide .size #lClose {
+  width: 40px;
+  height: 40px;
+  font: bold 25px/40px 'Comic Sans MS', '微软雅黑';
+  float: right;
+  position: relative;
+  right: -60px;
+  background: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#hide .size #lClose {
+  top: -60px;
+}
+#hide .size form {
+  display: none;
+  box-sizing: border-box;
+  position: absolute;
+  left: 50px;
+  top: 80px;
+  width: 300px;
+  height: 190px;
+  padding: 0px 20px;
+  background: #666699;
+  color: #fff;
+}
+#hide .size form input {
+  outline: none;
+  font-size: 8px;
+}
+#hide .size form p {
+  margin-top: 22px;
+}
+#hide .size #register {
+  top: 20px;
+}
+#hide .size #register div#tip {
+  display: none;
+}
+#hide .size #register .rule {
+  font-size: 10px;
+  line-height: 25px;
+}
